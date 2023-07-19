@@ -14,7 +14,7 @@ def restart_bot():
     os.execv(sys.executable, ['python'] + sys.argv)
     
 def run_discord_bot():
-    TOKEN = key
+    TOKEN = key.key()
 
     # Connect to the database (or create a new one if it doesn't exist)
     conn = sqlite3.connect('character_database.db')

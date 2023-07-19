@@ -1,2 +1,2 @@
 def key():
-    return 'MTEyOTA0Njk4NzgyODg5NTkxNw.GyautZ.4hXmw-A4KD-zrWJVk4owMUnYjh5gGYwHRVoxmA'
+    return 'MTEyOTA0Njk4NzgyODg5NTkxNw.Gdd2dC.MtRiOO06OmhTE2Xe3fNy2U2hze9Eso4AXJVGrM'
