@@ -5,6 +5,7 @@ import re
 import sqlite3
 import os
 import sys
+import key as key
 
 bot = commands.Bot(command_prefix="!", intents=discord.Intents.all(), help_command=None)
 native_thumbnail = 'https://img.freepik.com/free-vector/glitch-error-404-page_23-2148105404.jpg?w=2000'
@@ -13,7 +14,7 @@ def restart_bot():
     os.execv(sys.executable, ['python'] + sys.argv)
     
 def run_discord_bot():
-    TOKEN = 'MTEyOTA0Njk4NzgyODg5NTkxNw.GyautZ.4hXmw-A4KD-zrWJVk4owMUnYjh5gGYwHRVoxmA'
+    TOKEN = key
 
     # Connect to the database (or create a new one if it doesn't exist)
     conn = sqlite3.connect('character_database.db')
