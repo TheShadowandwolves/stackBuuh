@@ -2,7 +2,7 @@ import asyncio
 import discord
 import os
 from discord.ext import commands
-import key as key
+import TOKEN as key
 
 bot = commands.Bot(command_prefix="?", intents=discord.Intents.all())
 native_thumbnail = 'https://img.freepik.com/free-vector/glitch-error-404-page_23-2148105404.jpg?w=2000'

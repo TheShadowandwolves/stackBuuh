@@ -5,7 +5,7 @@ import re
 import sqlite3
 import os
 import sys
-import key as key
+import TOKEN as key
 
 bot = commands.Bot(command_prefix="?", intents=discord.Intents.all(), help_command=None)
 native_thumbnail = 'https://img.freepik.com/free-vector/glitch-error-404-page_23-2148105404.jpg?w=2000'
