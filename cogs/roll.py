@@ -2,6 +2,7 @@ import discord
 from discord.ext import commands
 import random
 import re
+import sqlite3
 
 class roll(commands.Cog):
     def __init__(self, bot):
@@ -14,9 +15,12 @@ class roll(commands.Cog):
 
 
     @commands.command(name='roll')
-    async def roll(self, ctx, *, message:str):
+    async def roll(self, ctx, *, message):
         """Rolls a dice with a specified number of sides"""
-        #print(message)
+        print(message)
+        id, mesg = message.split(' ', 1)
+        if mesg == "strength" or mesg == "str" or mesg == "dexterity" or mesg == "dex" or mesg == "constitution" or mesg == "con" or mesg == "intelligence" or mesg == "int" or mesg == "wisdom" or mesg == "wis" or mesg == "charisma" or mesg == "cha":
+            return await self.roll_stats(ctx, id, mesg)
         try:
             #_, command = message.split(' ', 1)
             command = message.replace(' ', '')  # Remove any spaces in the command
@@ -38,9 +42,64 @@ class roll(commands.Cog):
             await ctx.send('Invalid command. Please use the format `!r NdM +/- X` or a valid mathematical expression.')
 
     @commands.command(name='r')
-    async def r(self, ctx, *, message:str):
+    async def r(self, ctx, dice:str, *, modifier:str = ''):
         """Rolls a dice with a specified number of sides"""
-        self.roll(ctx, message)
+        mesg = f'{dice}{modifier}'
+        print(mesg)
+        await self.roll(ctx, message=mesg)
+
+    @commands.command(name='rollinit')
+    async def rollinit(self, ctx, action: str, *, message:str = None):
+        """Rolls the initiative for a specified number of players"""
+        if action == 'add':
+            await self.add_players(ctx, message)
+        elif action == 'clear':
+            await self.clear_players(ctx)
+        elif action == 'list':
+            await self.list_players(ctx)
+        elif action == 'start':
+            await self.roll_initiative(ctx)
+        else:
+            await ctx.reply(f'Wrong action!')
+
+
+    async def roll_stats(self, ctx,character_id, ability):
+        dice = 20
+        modifier = 0
+        print(ctx.author.name)
+        name = ctx.author.name
+        await ctx.send(f"Hello {name} {character_id} ! Rolling {ability}...")
+        try:
+            conn = sqlite3.connect('..\character_database.db')
+            cursor = conn.cursor()
+        except sqlite3.Error as e:
+            print(f'Error connecting to the database: {e}')
+
+        cursor.execute('SELECT * FROM characters WHERE character_id = ?', (character_id,))
+        character_data = cursor.fetchone()
+        print(character_data)
+        conn.close()
+
+        if character_data:
+            if ability.lower() == "strength" or ability.lower() == "str":
+                modifier = character_data[23]
+            elif ability.lower() == "dexterity" or ability.lower() == "dex":
+                modifier = character_data[24]
+            elif ability.lower() == "constitution" or ability.lower() == "con":
+                modifier = character_data[25]
+            elif ability.lower() == "intelligence" or ability.lower() == "int":
+                modifier = character_data[26]
+            elif ability.lower() == "wisdom" or ability.lower() == "wis":
+                modifier = character_data[27]
+            elif ability.lower() == "charisma" or ability.lower() == "cha":
+                modifier = character_data[28]
+            print(modifier)
+            roll_result = random.randint(1, dice)
+            total = roll_result + modifier
+            await ctx.send(f"Rolling 1d{dice} + {modifier}: {roll_result}\nTotal: {total}")
+        else:
+            await ctx.reply(f'You have not created a character yet!')
+
 
 async def setup(bot):
     await bot.add_cog(roll(bot))
