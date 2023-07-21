@@ -3,12 +3,13 @@ import discord
 import os
 from discord.ext import commands
 import TOKEN as key
+import db
 
 bot = commands.Bot(command_prefix="?", intents=discord.Intents.all())
 native_thumbnail = 'https://img.freepik.com/free-vector/glitch-error-404-page_23-2148105404.jpg?w=2000'
 
 def run_discord_bot():
-
+    db.run_db()
     async def load():#
         for filename in os.listdir('./cogs'):
             if filename.endswith('.py'):
