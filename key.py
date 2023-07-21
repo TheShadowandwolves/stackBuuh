@@ -1,2 +1,0 @@
-def key():
-    return "MTEzMTMzMTU1OTE0OTAxMDk4NA.GW3wDT.LIyS57-aCxP2Y3jHRPZ1MpfI_HTvenZlC_HEuo"
