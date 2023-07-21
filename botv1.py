@@ -7,7 +7,7 @@ import os
 import sys
 import key as key
 
-bot = commands.Bot(command_prefix="!", intents=discord.Intents.all(), help_command=None)
+bot = commands.Bot(command_prefix="?", intents=discord.Intents.all(), help_command=None)
 native_thumbnail = 'https://img.freepik.com/free-vector/glitch-error-404-page_23-2148105404.jpg?w=2000'
 
 def restart_bot(): 
@@ -58,7 +58,8 @@ def run_discord_bot():
             gold INTEGER,
             platinum INTEGER,
             temp_hp INTEGER,
-            hit_dice TEXT	      
+            hit_dice TEXT,
+            prof_bonus INTEGER  
                    
         )
     ''')
@@ -72,7 +73,7 @@ def run_discord_bot():
 
     @bot.event
     async def on_ready():
-        await bot.change_presence(status=discord.Status.online, activity=discord.Game('Phasmophobia'))
+        await bot.change_presence(status=discord.Status.online, activity=discord.Game('Fixing my Life'))
         print(f'{bot.user} has connected to Discord!')
 
     # @bot.event
@@ -260,7 +261,7 @@ def run_discord_bot():
                         hit_dice
 
                     )
-                    VALUES (?, '', '', '', 0, 0, '', '', '', 0, 0, 0, 0, 0, 0, '', 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,0,0,0,0,0,0, '')
+                    VALUES (?, '', '', '', 0, 0, '', '', '', 0, 0, 0, 0, 0, 0, '', 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,0,0,0,0,0,0, 0)
                 ''', (name,))
 
                 # Get the ID of the newly inserted character
@@ -379,11 +380,13 @@ def run_discord_bot():
             else:
                 conn.commit()
                 await ctx.send("Character not found.")
+            conn.close()
         
         
 
         else:
             await ctx.send("Invalid argument!")
+            conn.close()
 
 
     @bot.command()
