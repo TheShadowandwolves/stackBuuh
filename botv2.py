@@ -9,7 +9,7 @@ bot = commands.Bot(command_prefix="?", intents=discord.Intents.all())
 native_thumbnail = 'https://img.freepik.com/free-vector/glitch-error-404-page_23-2148105404.jpg?w=2000'
 
 def run_discord_bot():
-    db.run_db()
+    
     async def load():#
         for filename in os.listdir('./cogs'):
             if filename.endswith('.py'):
@@ -17,6 +17,7 @@ def run_discord_bot():
                 print(f'Loaded {filename}')
 
     async def main():
+        db.run_db()
         await load()
         print('Bot is ready')
         await bot.start(key.key())

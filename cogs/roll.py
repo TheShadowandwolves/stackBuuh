@@ -3,6 +3,7 @@ from discord.ext import commands
 import random
 import re
 import sqlite3
+import db
 
 class roll(commands.Cog):
     def __init__(self, bot):
@@ -63,22 +64,17 @@ class roll(commands.Cog):
             await ctx.reply(f'Wrong action!')
 
 
-    async def roll_stats(self, ctx,character_id, ability):
+    async def roll_stats(self, ctx, ability):
         dice = 20
         modifier = 0
         print(ctx.author.name)
         name = ctx.author.name
+        character_id = db.get_character_id(name)
         await ctx.send(f"Hello {name} {character_id} ! Rolling {ability}...")
         try:
-            conn = sqlite3.connect('..\character_database.db')
-            cursor = conn.cursor()
-        except sqlite3.Error as e:
-            print(f'Error connecting to the database: {e}')
-
-        cursor.execute('SELECT * FROM characters WHERE character_id = ?', (character_id,))
-        character_data = cursor.fetchone()
-        print(character_data)
-        conn.close()
+            character_data = db.search_character(character_id)
+        except:
+            await ctx.reply(f'You have not created a character yet!')
 
         if character_data:
             if ability.lower() == "strength" or ability.lower() == "str":
